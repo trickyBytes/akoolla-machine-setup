@@ -9,46 +9,74 @@
       starttls-extra-arguments '("--tofu")
       )
 
+(require 'cl)
 (require 'package)
-(add-to-list 'package-archives '("marmalade" . "https://marmalade-repo.org/packages/"))
-
-(defvar my-packages '(better-defaults
-                      projectile
-                      clojure-mode
-                      ;;ido-at-point ;; completion with ido
-                      cider))
-
 (package-initialize)
+(add-to-list 'package-archives
+	     '("marmalade" . "https://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives
+	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
-(dolist (p my-packages)
-  (unless (package-installed-p p)
-    (package-install p)))
+(setq package-archive-enable-alist '(("melpa" deft magit)))
 
-;;(ido-at-point-mode)
+(defvar trickbytes/packages '(ac-slime
+			      auto-complete
+			      clojure-mode
+			      cider
+			      magit
+			      markdown-mode
+			      smex
+			      ) "Default packages")
 
-(setq inhibit-splash-screen t
-      initial-scratch-message nil
-      initial-major-mode 'org-mode)
+(defun trickybytes/packages-installed-p ()
+  (loop for pkg in  trickbytes/packages
+        when (not (package-installed-p pkg)) do (return nil)
+        finally (return t)))
 
-;;No tabs in files
+(unless (trickybytes/packages-installed-p)
+  (message "%s" "Refreshing package database...")
+  (package-refresh-contents)
+  (dolist (pkg  trickbytes/packages)
+    (when (not (package-installed-p pkg))
+      (package-install pkg))))
+
+ 
+(setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+
 (setq tab-width 2
       indent-tabs-mode nil)
 
-;;No back-up files
 (setq make-backup-files nil)
-
-;;Deal with temp files and take them away
 (setq backup-directory-alist `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (tsdh-dark))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+(require 'auto-complete-config)
+(ac-config-default)
+
+
+(ido-mode t)
+(setq ido-enable-flex-matching t
+      ido-use-virtual-buffers t)
+
+(setq column-number-mode t)
+
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.mdown$" . markdown-mode))
+(add-hook 'markdown-mode-hook
+          (lambda ()
+            (visual-line-mode t)
+            (writegood-mode t)
+            (flyspell-mode t)))
+(setq markdown-command "pandoc --smart -f markdown -t html")
+
+(require 'ansi-color)
+(defun colorize-compilation-buffer ()
+  (toggle-read-only)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-read-only))
+(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+
+(load-file "~/.emacs.d/color-themes/themes/spolsky-theme.el")
