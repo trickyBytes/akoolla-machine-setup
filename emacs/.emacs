@@ -40,6 +40,13 @@
     (when (not (package-installed-p pkg))
       (package-install pkg))))
 
+(setq inhibit-splash-screen t
+      initial-scratch-message nil
+      initial-major-mode 'org-mode)
+
+(scroll-bar-mode -1)
+;;(menu-bar-mode -1)
+(tool-bar-mode -1)
  
 (setq smex-save-file (expand-file-name ".smex-items" user-emacs-directory))
 (smex-initialize)
