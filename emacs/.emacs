@@ -79,3 +79,4 @@
 (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 (load-file "~/.emacs.d/color-themes/themes/spolsky-theme.el")
+(setq org-time-clocksum-format (quote (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
