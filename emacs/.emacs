@@ -1,13 +1,5 @@
 (setq user-full-name "Richard Tiffin")
-(setq user-mail-address "richard.tififn@akoolla.com")
-
-(if (fboundp 'gnutls-available-p)
-    (fmakunbound 'gnutls-available-p))
-(setq tls-program '("gnutls-cli --tofu -p %p %h")
-      imap-ssl-program '("gnutls-cli --tofu -p %p %s")
-      smtpmail-stream-type 'starttls
-      starttls-extra-arguments '("--tofu")
-      )
+(setq user-mail-address "richard.tiffin@akoolla.com")
 
 (require 'cl)
 (require 'package)
