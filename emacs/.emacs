@@ -18,6 +18,7 @@
 			      magit
 			      markdown-mode
 			      smex
+			      yaml-mode
 			      ) "Default packages")
 
 (defun trickybytes/packages-installed-p ()
@@ -80,3 +81,15 @@
 
 (load-file "~/.emacs.d/color-themes/themes/spolsky-theme.el")
 (setq org-time-clocksum-format (quote (:hours "%d" :require-hours t :minutes ":%02d" :require-minutes t)))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (yaml-mode smex markdown-mode magit cider ac-slime))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
