@@ -6,7 +6,8 @@
                       projectile
                       clojure-mode
                       ido-at-point ;; completion with ido
-                      cider))
+                      cider
+		      yaml-mode))
 
 (package-initialize)
 
@@ -18,6 +19,9 @@
 
 ;; when in programming mode enable eldoc - docs for language
 (add-hook 'prog-mode-hook 'eldoc-mode)
+(add-hook 'yaml-mode-hook
+    '(lambda ()
+       (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
