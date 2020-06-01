@@ -10,6 +10,7 @@
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (setq package-archive-enable-alist '(("melpa" deft magit)))
+(setq org-duration-format 'h:mm)
 
 (defvar trickbytes/packages '(ac-slime
 			      auto-complete
